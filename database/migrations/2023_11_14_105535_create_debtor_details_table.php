@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('debtor_id');
             $table->string('money')->nullable();
-            $table->enum('status', [1, -1]);
+            $table->enum('status', [1, -1])->index();
             $table->timestamps();
             $table->foreign('debtor_id')->references('id')->on('debtors')->onDelete('restrict');
         });
@@ -26,6 +26,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('debtor_detailes');
+        Schema::dropIfExists('money_differences');
+        Schema::dropIfExists('debtor_details');
     }
 };

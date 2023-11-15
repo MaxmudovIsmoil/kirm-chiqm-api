@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('debtor_money_differences', function (Blueprint $table) {
+        Schema::create('money_differences', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('debtor_id');
             $table->string('money')->nullable();
-            $table->enum('status', [1, -1]); // 1 + haqdor, -1 - qarzdor
+            $table->enum('status', [1, -1])->index(); // 1 + haqdor, -1 - qarzdor
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
             $table->foreign('debtor_id')->references('id')->on('debtors')->onDelete('restrict');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('debtor_money_differences');
+        Schema::dropIfExists('money_differences');
     }
 };

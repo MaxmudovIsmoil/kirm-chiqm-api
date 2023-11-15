@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->enum('status', [1, 0])->default(1);
             $table->string('phone')->unique();
-            $table->string('username')->unique();
+            $table->string('username')->unique()->nullable()->default(null);
             $table->string('password');
+            $table->string('api_token')->unique()->nullable()->default(null);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -28,6 +29,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('currency');
         Schema::dropIfExists('users');
     }
 };
