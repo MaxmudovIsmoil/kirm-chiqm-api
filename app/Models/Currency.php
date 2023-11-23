@@ -12,7 +12,7 @@ class Currency extends Model
     public $table = 'currency';
     protected $fillable = [
         'user_id',
-        'money',
-        'status'
+        'currency',
     ];
+
 }

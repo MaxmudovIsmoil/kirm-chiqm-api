@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Dto\CreateUserDto;
+use App\Dto\User\CreateUserDto;
 use App\Models\User;
 
 readonly class UserRepository
@@ -25,8 +25,9 @@ readonly class UserRepository
      * @param string $phone
      * @return User|null
      */
-    public function findByPhone(string $phone): ?User
+    public function findByPhone(string $phone)
     {
-        return $this->model->wherePhone($phone)->first();
+         return $this->model->wherePhone($phone)->first();
     }
+
 }

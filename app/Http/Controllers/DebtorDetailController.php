@@ -2,33 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CurrencyRequest;
-use App\Services\CurrencyService;
+use App\Http\Requests\DebtorDetailRequest;
+use App\Services\DebtorDetailService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
-class CurrencyController extends Controller
+class DebtorDetailController extends Controller
 {
     public function __construct(
-        public CurrencyService $service
+        public DebtorDetailService $service
     ) {}
 
 
-    public function index(): JsonResponse
+    public function index(int $debtor_id): JsonResponse
     {
-        return response()->success($this->service->list());
+        return response()->success($this->service->list($debtor_id));
     }
 
-    public function store(CurrencyRequest $request): JsonResponse
+    public function store(DebtorDetailRequest $request): JsonResponse
     {
         $result = $this->service->create($request->validated());
 
         return response()->success($result);
     }
 
-    public function update(CurrencyRequest $request, int $id)
+    public function update(DebtorDetailRequest $request, int $id)
     {
-//        return response()->json($request->validated());
         $result = $this->service->update($request->validated(), $id);
 
         return response()->success($result);
@@ -40,4 +38,5 @@ class CurrencyController extends Controller
 
         return response()->success($result);
     }
+
 }

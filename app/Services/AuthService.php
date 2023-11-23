@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Dto\CreateUserDto;
-use App\Dto\LoginDto;
-use App\Dto\RegistrationDto;
+use App\Dto\User\CreateUserDto;
+use App\Dto\User\LoginDto;
+use App\Dto\User\RegistrationDto;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\UnauthorizedException;
 use App\Repository\UserRepository;
@@ -32,28 +32,28 @@ class AuthService
         ));
 
         return [
-            'access_token' => $user->createToken('user')->accessToken,
+            'access_token' => $user->createToken('user')->plainTextToken,
             'user' => $user->toArray()
         ];
     }
 
-    /**
-     * @throws UnauthorizedException|NotFoundException
-     */
+
     public function login(LoginDto $dto): array
     {
         $user = $this->repository->findByPhone($dto->phone);
 
-        if (null === $user) {
-            throw new NotFoundException('User not found');
+        if ($user === null) {
+            throw new NotFoundException(message:'User not found', code:404);
         }
 
         if (! Hash::check($dto->password, $user->getAuthPassword())) {
-            throw new UnauthorizedException('Unauthorized');
+            throw new UnauthorizedException(message:'Unauthorized', code:401);
         }
 
         return [
-            'access_token' => $user->createToken('user')->accessToken
+            'access_token' => $user->createToken('user')->plainTextToken
         ];
     }
+
+
 }

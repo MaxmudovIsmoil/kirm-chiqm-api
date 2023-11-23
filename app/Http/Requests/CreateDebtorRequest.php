@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterRequest extends FormRequest
+class CreateDebtorRequest extends FormRequest
 {
 
     /**
@@ -19,8 +19,8 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'phone' => 'required|max:9|min:9|unique:users',
-            'password' => 'required|min:3',
+            'phone' => 'required|max:9|min:9|unique:debtors',
+            'status' => 'required|min:1|max:1',
         ];
     }
 

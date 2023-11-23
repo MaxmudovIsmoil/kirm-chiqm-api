@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Debtor extends Model
 {
@@ -17,5 +18,15 @@ class Debtor extends Model
       'phone',
       'status'
     ];
+
+    public function debtorDetail()
+    {
+        return $this->hasMany(DebtorDetail::class, 'debtor_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }
 

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterRequest extends FormRequest
+class DebtorDetailRequest extends FormRequest
 {
 
     /**
@@ -18,9 +18,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'phone' => 'required|max:9|min:9|unique:users',
-            'password' => 'required|min:3',
+            'debtor_id' => 'required',
+            'money' => 'required',
+            'status' => 'required|min:1|max:2',
         ];
     }
 

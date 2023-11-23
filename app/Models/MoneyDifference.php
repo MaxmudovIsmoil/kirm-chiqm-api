@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class MoneyDifference extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'debtor_id',
+        'money',
+        'status'
+    ];
 }

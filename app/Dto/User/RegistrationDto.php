@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Dto;
+namespace App\Dto\User;
 
-readonly class LoginDto
+readonly class RegistrationDto
 {
     public function __construct(
+        public string $name,
         public string $phone,
         public string $password
-    )
-    {}
-
+    ) {}
 }

@@ -6,8 +6,10 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
-class RegisterRequest extends FormRequest
+class UpdateDebtorRequest extends FormRequest
 {
 
     /**
@@ -17,10 +19,13 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
+//        Log::info($this);
         return [
+            'id' => 'required',
             'name' => 'required|string|max:255',
-            'phone' => 'required|max:9|min:9|unique:users',
-            'password' => 'required|min:3',
+            'phone' => 'required|size:9|unique:debtors,phone,'.$this->id,
+//            'phone' => ['required', Rule::unique('debtors')->ignore($this->phone)],
+            'status' => 'required|min:1|max:1',
         ];
     }
 
