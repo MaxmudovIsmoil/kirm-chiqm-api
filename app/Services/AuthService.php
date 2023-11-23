@@ -7,6 +7,7 @@ use App\Dto\User\LoginDto;
 use App\Dto\User\RegistrationDto;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\UnauthorizedException;
+use App\Http\Resources\UserLoginResource;
 use App\Repository\UserRepository;
 use Illuminate\Support\Facades\Hash;
 
@@ -51,7 +52,8 @@ class AuthService
         }
 
         return [
-            'access_token' => $user->createToken('user')->plainTextToken
+            'access_token' => $user->createToken('user')->plainTextToken,
+            'user' => new UserLoginResource($user)
         ];
     }
 
