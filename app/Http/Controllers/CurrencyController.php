@@ -23,15 +23,14 @@ class CurrencyController extends Controller
     {
         $result = $this->service->create($request->validated());
 
-        return response()->success($result);
+        return response()->success(data: $result, code: 201);
     }
 
     public function update(CurrencyRequest $request, int $id)
     {
-//        return response()->json($request->validated());
         $result = $this->service->update($request->validated(), $id);
 
-        return response()->success($result);
+        return response()->success(data: $result);
     }
 
     public function destroy(int $id)

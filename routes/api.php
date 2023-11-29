@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Enums\TokenAbility;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DebtorController;
 use App\Http\Controllers\AuthController;
@@ -27,6 +28,8 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::get('profile', [AuthController::class, 'profile']);
+
     Route::prefix('debtor')->group(function() {
         Route::get('/', [DebtorController::class, 'index']);
         Route::post('/create', [DebtorController::class, 'store']);
@@ -48,6 +51,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/delete/{id}', [CurrencyController::class, 'destroy']);
     });
 
+
+    Route::post('refreshToken', [AuthController::class, 'refreshToken'])
+        ->middleware(['ability:'.TokenAbility::ISSUE_ACCESS_TOKEN->value]);
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });

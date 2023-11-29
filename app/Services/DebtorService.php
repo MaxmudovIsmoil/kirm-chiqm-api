@@ -6,9 +6,7 @@ use App\Dto\Debtor\CreateDebtorDto;
 use App\Http\Resources\DebtorResource;
 use App\Models\Debtor;
 use App\Models\DebtorDetail;
-use App\Models\MoneyDifference;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class DebtorService
 {
@@ -47,7 +45,6 @@ class DebtorService
 
     public function delete(int $id)
     {
-        MoneyDifference::where(['debtor_id' => $id])->delete();
         DebtorDetail::where(['debtor_id' => $id])->delete();
         return Debtor::destroy($id);
     }

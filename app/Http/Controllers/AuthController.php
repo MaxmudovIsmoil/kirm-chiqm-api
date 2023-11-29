@@ -29,12 +29,20 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        $result = $this->service->login(new LoginDto(
-            phone: $request->phone,
-            password: $request->password
-        ));
+        try {
+            $result = $this->service->login(new LoginDto(
+                phone: $request->phone,
+                password: $request->password
+            ));
 
-        return response()->success($result);
+            return response()->success(data:$result, code: 200);
+        }
+        catch (NotFoundException $e) {
+            return response()->fail(error: $e->getMessage(), code: $e->getCode());
+        }
+        catch (UnauthorizedException $e) {
+            return response()->fail(error: $e->getMessage(), code: $e->getCode());
+        }
     }
 
 
@@ -46,7 +54,12 @@ class AuthController extends Controller
             password: $request->get('password')
         ));
 
-        return response()->success($result);
+        return response()->success(data:$result, code: 201);
+    }
+
+    public function refreshToken(Request $request)
+    {
+        return response()->success(data: $this->service->refreshToken($request));
     }
 
     public function logout(): JsonResponse
@@ -55,5 +68,11 @@ class AuthController extends Controller
         Auth::guard('web')->logout();
 
         return response()->success(['message' => 'Logged out successfully']);
+    }
+
+
+    public function profile()
+    {
+        return response()->success($this->service->profile());
     }
 }
