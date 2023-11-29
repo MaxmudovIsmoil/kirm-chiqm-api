@@ -8,6 +8,7 @@ use App\Models\Debtor;
 use App\Models\DebtorDetail;
 use App\Models\MoneyDifference;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DebtorService
 {

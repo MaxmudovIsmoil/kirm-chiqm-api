@@ -22,7 +22,7 @@ class DebtorDetailService
         return DebtorDetail::create([
             'debtor_id' => (int) $data['debtor_id'],
             'money' => $data['money'],
-            'status' => (int) $data['status'],
+            'status' => $data['status'],
         ]);
     }
 
@@ -32,7 +32,7 @@ class DebtorDetailService
             ->update([
                 'debtor_id' => $data['debtor_id'],
                 'money' => $data['money'],
-                'status' => (int) $data['status'],
+                'status' => $data['status'],
             ]);
     }
 

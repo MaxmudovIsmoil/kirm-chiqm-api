@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('debtor_id');
             $table->string('money')->nullable();
-            $table->enum('status', [1, -1])->index();
+            $table->enum('status', [1, 0])->index()->default(1);
             $table->timestamps();
             $table->foreign('debtor_id')->references('id')->on('debtors')->onDelete('restrict');
         });

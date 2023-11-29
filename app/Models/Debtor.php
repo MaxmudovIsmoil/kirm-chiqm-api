@@ -16,10 +16,11 @@ class Debtor extends Model
       'user_id',
       'name',
       'phone',
-      'status'
+      'status',
+      'money'
     ];
 
-    public function debtorDetail()
+    public function debtor_detail()
     {
         return $this->hasMany(DebtorDetail::class, 'debtor_id', 'id');
     }

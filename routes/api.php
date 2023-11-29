@@ -6,7 +6,6 @@ use App\Http\Controllers\DebtorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DebtorDetailController;
-use App\Http\Controllers\MoneyDifferenceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,14 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/create', [DebtorDetailController::class, 'store']);
         Route::put('/update/{id}', [DebtorDetailController::class, 'update']);
         Route::delete('/delete/{id}', [DebtorDetailController::class, 'destroy']);
-    });
-
-    // ? chala
-    Route::prefix('money-differance')->group(function() {
-        Route::get('/', [MoneyDifferenceController::class, 'index']);
-        Route::post('/create', [MoneyDifferenceController::class, 'store']);
-        Route::put('/update/{id}', [MoneyDifferenceController::class, 'update']);
-        Route::delete('/delete/{id}', [MoneyDifferenceController::class, 'destroy']);
     });
 
     Route::prefix('currency')->group(function() {

@@ -9,6 +9,7 @@ use App\Models\Debtor;
 use App\Services\DebtorService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class DebtorController extends Controller
@@ -20,6 +21,7 @@ class DebtorController extends Controller
 
     public function index()
     {
+
         return response()->success($this->service->list());
     }
 
