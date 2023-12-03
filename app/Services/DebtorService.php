@@ -16,7 +16,9 @@ class DebtorService
         $user_id = Auth::user()->id;
 
         $debtors = Debtor::where(['user_id' => $user_id])
+            ->whereNull('deleted_at')
             ->with('user')
+            ->orderBy('id', 'DESC')
             ->get();
 
         return DebtorResource::collection($debtors);
@@ -28,7 +30,7 @@ class DebtorService
             'user_id' => Auth::user()->id,
             'name' => $dto->name,
             'phone' => $dto->phone,
-            'status' => (int) $dto->status,
+            'status' => $dto->status,
         ]);
 
     }
@@ -39,14 +41,14 @@ class DebtorService
             ->update([
                 'name' => $dto->name,
                 'phone' => $dto->phone,
-                'status' => (int) $dto->status,
+                'status' => $dto->status,
             ]);
     }
 
     public function delete(int $id)
     {
-        DebtorDetail::where(['debtor_id' => $id])->delete();
-        return Debtor::destroy($id);
+//        DebtorDetail::where(['debtor_id' => $id])->delete();
+        return Debtor::where(['id' => $id])->update(['deleted_at' => now()]);
     }
 }
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\DebtorDetailResource;
 use App\Models\DebtorDetail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class DebtorDetailService
@@ -12,7 +13,9 @@ class DebtorDetailService
     public function list(int $debtor_id)
     {
         $debtors = DebtorDetail::where(['debtor_id' => $debtor_id])
+            ->whereNull('deleted_at')
             ->with('debtor', 'currency')
+            ->orderBy('id', 'DESC')
             ->get();
 
         return DebtorDetailResource::collection($debtors);
@@ -47,7 +50,8 @@ class DebtorDetailService
 
     public function delete(int $id)
     {
-        return DebtorDetail::destroy($id);
+        return DebtorDetail::where(['id' => $id])
+            ->update(['deleted_at' => now()]);
     }
 
 }

@@ -27,33 +27,45 @@ class DebtorController extends Controller
 
     public function store(CreateDebtorRequest $request): JsonResponse
     {
+        try {
+            $result = $this->service->create(new CreateDebtorDto(
+                name: $request->name,
+                phone: $request->phone,
+                status: $request->status,
+            ));
 
-        $result = $this->service->create(new CreateDebtorDto(
-            name: $request->name,
-            phone: $request->phone,
-            status: $request->status,
-        ));
-
-        return response()->success($result);
+            return response()->success($result);
+        }
+        catch (\Exception $e) {
+            return reponse()->json($e->getMessage());
+        }
     }
 
     public function update(UpdateDebtorRequest $request)
     {
-        $result = $this->service->update(new CreateDebtorDto(
-            name: $request->name,
-            phone: $request->phone,
-            status: $request->status,
-        ), $request->id);
+        try {
+            $result = $this->service->update(new CreateDebtorDto(
+                name: $request->name,
+                phone: $request->phone,
+                status: $request->status,
+            ), $request->id);
 
-        return response()->success($result);
+            return response()->success($result);
+        }
+        catch (\Exception $e) {
+            return reponse()->json($e->getMessage());
+        }
     }
 
     public function destroy(int $id)
     {
-
-        $result = $this->service->delete($id);
-
-        return response()->success($result);
+        try {
+            $result = $this->service->delete($id);
+            return response()->success($result);
+        }
+        catch (\Exception $e) {
+            return reponse()->json($e->getMessage());
+        }
     }
 
 }

@@ -9,9 +9,20 @@ class CurrencyService
 {
     public function list()
     {
-        $user_id = Auth::user()->id;
+        $userId = Auth::user()->id;
+        return Currency::where(['user_id' => $userId])
+            ->whereNull('deleted_at')
+            ->orderBy('id', 'DESC')
+            ->get();
+    }
 
-        return Currency::where(['user_id' => $user_id])->latest()->first();
+    public function one()
+    {
+        $userId = Auth::user()->id;
+        return Currency::where(['user_id' => $userId])
+            ->whereNull('deleted_at')
+            ->latest()
+            ->first();
     }
 
     public function create(array $data)
@@ -30,7 +41,8 @@ class CurrencyService
 
     public function delete(int $id)
     {
-        return Currency::destroy($id);
+        return Currency::where(['id' => $id])
+            ->update(['deleted_at' => now()]);
     }
 }
 
