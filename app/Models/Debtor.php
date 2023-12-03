@@ -13,11 +13,12 @@ class Debtor extends Model
 //    public $table = 'debtors';
 
     protected $fillable = [
-      'user_id',
-      'name',
-      'phone',
-      'status',
-      'money'
+        'user_id',
+        'name',
+        'phone',
+        'status',
+        'money',
+        'deleted_at'
     ];
 
     public function debtor_detail()

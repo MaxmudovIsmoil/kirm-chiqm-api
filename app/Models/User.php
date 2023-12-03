@@ -52,7 +52,7 @@ class User extends Authenticatable
         'username',
         'password',
         'status',
-        'api_token'
+        'deleted_at'
     ];
 
     /**

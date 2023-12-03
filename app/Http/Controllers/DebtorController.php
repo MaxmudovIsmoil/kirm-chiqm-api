@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dto\Debtor\CreateDebtorDto;
 use App\Http\Requests\CreateDebtorRequest;
 use App\Http\Requests\UpdateDebtorRequest;
+use App\Http\Resources\DebtorResource;
 use App\Models\Debtor;
 use App\Services\DebtorService;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +22,6 @@ class DebtorController extends Controller
 
     public function index()
     {
-
         return response()->success($this->service->list());
     }
 

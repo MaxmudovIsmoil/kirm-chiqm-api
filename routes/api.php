@@ -51,9 +51,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/delete/{id}', [CurrencyController::class, 'destroy']);
     });
 
-
     Route::post('refreshToken', [AuthController::class, 'refreshToken'])
         ->middleware(['ability:'.TokenAbility::ISSUE_ACCESS_TOKEN->value]);
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
+

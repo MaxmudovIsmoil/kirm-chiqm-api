@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DebtorDetailRequest;
 use App\Services\DebtorDetailService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use function Psy\debug;
 
 class DebtorDetailController extends Controller
 {
@@ -20,23 +23,36 @@ class DebtorDetailController extends Controller
 
     public function store(DebtorDetailRequest $request): JsonResponse
     {
-        $result = $this->service->create($request->validated());
-
-        return response()->success($result);
+//        Log::info($request->validated());
+        try {
+            $result = $this->service->create($request->validated());
+            return response()->success($result);
+        }
+        catch (\Exception $e) {
+            return response()->fail($e->getMessage());
+        }
     }
 
     public function update(DebtorDetailRequest $request, int $id)
     {
-        $result = $this->service->update($request->validated(), $id);
-
-        return response()->success($result);
+        try {
+            $result = $this->service->update($request->validated(), $id);
+            return response()->success($result);
+        }
+        catch (\Exception $e) {
+            return response()->fail($e->getMessage());
+        }
     }
 
     public function destroy(int $id)
     {
-        $result = $this->service->delete($id);
-
-        return response()->success($result);
+        try {
+            $result = $this->service->delete($id);
+            return response()->success($result);
+        }
+        catch (\Exception $e) {
+            return response()->fail($e->getMessage());
+        }
     }
 
 }

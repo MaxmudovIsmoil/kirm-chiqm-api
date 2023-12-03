@@ -21,6 +21,9 @@ class DebtorDetailRequest extends FormRequest
             'debtor_id' => 'required',
             'money' => 'required',
             'status' => 'required|min:1|max:2',
+            'currency_id' => 'required',
+            'date' => 'required',
+            'expression_history' => 'required',
         ];
     }
 

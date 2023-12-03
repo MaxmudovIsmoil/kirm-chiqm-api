@@ -20,6 +20,9 @@ class DebtorDetailResource extends JsonResource
             "debtor" => $this->debtor->name,
             "money" => $this->phone,
             "status" => $this->status,
+            "expression_history" => $this->expression_history,
+            "currency" => $this->currency->currency,
+            "date" => $this->date,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at
         ];

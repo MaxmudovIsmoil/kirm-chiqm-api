@@ -12,11 +12,21 @@ class DebtorDetail extends Model
     protected $fillable = [
         'debtor_id',
         'money',
-        'status'
+        'status',
+        'currency_id',
+        'expression_history',
+        'date',
+        'deleted_at'
     ];
 
     public function debtor()
     {
         return $this->hasOne(Debtor::class, 'id', 'debtor_id');
+    }
+
+
+    public function currency()
+    {
+        return $this->hasOne(Currency::class, 'id', 'currency_id');
     }
 }

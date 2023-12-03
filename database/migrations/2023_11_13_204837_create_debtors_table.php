@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->enum('status', [1, 0])->default(0)->comment('active / no active');
             $table->string('money')->default(0);
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
+            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
         });
     }

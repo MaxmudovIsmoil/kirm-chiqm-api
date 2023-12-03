@@ -16,8 +16,14 @@ return new class extends Migration
             $table->unsignedBigInteger('debtor_id');
             $table->string('money')->nullable();
             $table->enum('status', [1, 0])->index()->default(1);
-            $table->timestamps();
+            $table->string('expression_history')->nullable();
+            $table->unsignedBigInteger('currency_id');
+            $table->string('date')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
+            $table->softDeletes();
             $table->foreign('debtor_id')->references('id')->on('debtors')->onDelete('restrict');
+            $table->foreign('currency_id')->references('id')->on('currency')->onDelete('restrict');
         });
     }
 
@@ -26,7 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('money_differences');
         Schema::dropIfExists('debtor_details');
     }
 };

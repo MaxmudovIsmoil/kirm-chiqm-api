@@ -13,6 +13,7 @@ class Currency extends Model
     protected $fillable = [
         'user_id',
         'currency',
+        'deleted_at',
     ];
 
 }

@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Http\Resources\DebtorDetailResource;
 use App\Models\Debtor;
 use App\Models\DebtorDetail;
-use App\Models\MoneyDifference;
 
 class MoneyDifferenceService
 {

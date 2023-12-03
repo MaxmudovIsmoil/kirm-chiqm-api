@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('username')->unique()->nullable()->default(null);
             $table->string('password');
-            $table->string('api_token')->unique()->nullable()->default(null);
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
+            $table->softDeletes();
         });
     }
 
