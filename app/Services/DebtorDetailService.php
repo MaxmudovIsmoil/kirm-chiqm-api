@@ -30,6 +30,7 @@ class DebtorDetailService
             'status' => $data['status'],
             'date' => $data['date'],
             'expression_history' => $expression_history,
+            'currency_convert' => $data['currency_convert'],
             'currency_id' => $data['currency_id'],
         ]);
     }
@@ -43,6 +44,7 @@ class DebtorDetailService
                 'money' => $data['money'],
                 'status' => $data['status'],
                 'date' => $data['date'],
+                'currency_convert' => $data['currency_convert'],
                 'currency_id' => $data['currency_id'],
                 'expression_history' => $expression_history,
             ]);

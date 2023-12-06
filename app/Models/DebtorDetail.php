@@ -13,6 +13,7 @@ class DebtorDetail extends Model
         'debtor_id',
         'money',
         'status',
+        'currency_convert',
         'currency_id',
         'expression_history',
         'date',
