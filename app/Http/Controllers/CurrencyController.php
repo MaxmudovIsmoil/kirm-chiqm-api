@@ -19,9 +19,14 @@ class CurrencyController extends Controller
         return response()->success($this->service->list());
     }
 
-    public function one()
+    public function last()
     {
-        return response()->success($this->service->one());
+        return response()->success($this->service->last());
+    }
+
+    public function one(int $id)
+    {
+        return response()->success($this->service->one($id));
     }
 
     public function store(CurrencyRequest $request): JsonResponse

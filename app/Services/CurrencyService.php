@@ -16,13 +16,18 @@ class CurrencyService
             ->get();
     }
 
-    public function one()
+    public function last()
     {
         $userId = Auth::user()->id;
         return Currency::where(['user_id' => $userId])
             ->whereNull('deleted_at')
             ->latest()
             ->first();
+    }
+
+    public function one(int $id)
+    {
+        return Currency::findOrFail($id);
     }
 
     public function create(array $data)
