@@ -2,6 +2,7 @@
 
 
 use App\Enums\TokenAbility;
+use App\Http\Controllers\StatisticController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DebtorController;
 use App\Http\Controllers\AuthController;
@@ -57,5 +58,11 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware(['ability:'.TokenAbility::ISSUE_ACCESS_TOKEN->value]);
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+
+    Route::prefix('statistic')->group(function() {
+        Route::get('/{month?}', [StatisticController::class, 'month']);
+        Route::get('debtor/{id}/{month?}', [StatisticController::class, 'debtor']);
+    });
 });
 

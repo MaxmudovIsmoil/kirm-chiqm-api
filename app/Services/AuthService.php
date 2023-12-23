@@ -35,8 +35,12 @@ class AuthService
             password: $password
         ));
 
+        $accessToken = $this->access_refresh_token($user)->access_token;
+        $refreshToken = $this->access_refresh_token($user)->refresh_token;
+
         return [
-            'access_token' => $user->createToken('user')->plainTextToken,
+            'access_token' => $accessToken,
+            'refresh_token' => $refreshToken,
             'user' => $user->toArray()
         ];
     }
@@ -46,7 +50,6 @@ class AuthService
     {
         $user = $this->repository->findByPhone($dto->phone);
 
-
         if ($user === null) {
             throw new NotFoundException(message:'User not found', code:404);
         }
@@ -55,19 +58,29 @@ class AuthService
             throw new UnauthorizedException(message:'Unauthorized', code:401);
         }
 
+        $accessToken = $this->access_refresh_token($user)->access_token;
+        $refreshToken = $this->access_refresh_token($user)->refresh_token;
+
+        return [
+            'access_token' => $accessToken,
+            'refresh_token' => $refreshToken,
+            'user' => new UserLoginResource($user)
+        ];
+    }
+
+    protected function access_refresh_token(object $user): object
+    {
         $expiresAt = Carbon::now()->addMinutes(config('sanctum.expiration'));
         $expiresRt = Carbon::now()->addMinutes(config('sanctum.rt_expiration'));
 
         $accessToken = $user->createToken('access_token', [TokenAbility::ACCESS_API->value], $expiresAt);
         $refreshToken = $user->createToken('refresh_token', [TokenAbility::ISSUE_ACCESS_TOKEN->value], $expiresRt);
 
-        return [
+        return (object)[
             'access_token' => $accessToken->plainTextToken,
             'refresh_token' => $refreshToken->plainTextToken,
-            'user' => new UserLoginResource($user)
         ];
     }
-
 
     public function refreshToken(Request $request)
     {
