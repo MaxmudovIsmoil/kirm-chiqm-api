@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Enums\TokenAbility;
 use App\Http\Controllers\StatisticController;
 use Illuminate\Support\Facades\Route;

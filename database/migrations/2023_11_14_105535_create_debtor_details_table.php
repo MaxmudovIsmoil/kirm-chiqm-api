@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('money')->nullable();
             $table->enum('status', [1, 0])->index()->default(1);
             $table->string('expression_history')->nullable();
-            $table->enum('currency_convert', [1, 0])->default(0)->comment('1-convert, 0-sum');
+            $table->enum('currency_convert', [1, 0])->default(0)
+                ->comment('1-$, 0-sum');
             $table->string('currency_id')->default(0);
             $table->string('date')->nullable();
             $table->timestamp('created_at')->useCurrent();
