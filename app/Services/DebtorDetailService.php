@@ -30,22 +30,23 @@ class DebtorDetailService
     {
         DB::beginTransaction();
             $debtorId = (int) $data['debtor_id'];
+            $status = $data['status'];
             $currency_convert = $data['currency_convert'];
             $currencyId = (int) $data['currency_id'];
             $money = $data['money'];
             $expression_history = Str::replace(' ', '+', trim($data['expression_history']));
+
             $d = DebtorDetail::create([
                 'debtor_id' => $debtorId,
                 'money' => $money,
-                'status' => $data['status'],
+                'status' => $status,
                 'date' => $data['date'],
                 'expression_history' => $expression_history,
                 'currency_convert' => $currency_convert,
                 'currency_id' => $currencyId,
             ]);
 
-            $debtor = Debtor::findOrFail($debtorId);
-            $this->newMoneyAddDebtor($debtor, $currency_convert, $currencyId, $money);
+            $this->newMoneyAddDebtor($debtorId, $currency_convert, $currencyId, $money, $status);
         DB::commit();
         return $d;
 
@@ -55,27 +56,22 @@ class DebtorDetailService
     {
         DB::beginTransaction();
             $debtorId = $data['debtor_id'];
+            $status = $data['status'];
+            $money = $data['money'];
+            $currency_convert = $data['currency_convert'];
+            $currencyId = (int) $data['currency_id'];
             $expression_history = Str::replace(' ', '+', trim($data['expression_history']));
             $debtorDetail = DebtorDetail::findOrFail($id);
 
             // old remove
-            $old_money = $this->getOldMoneyDebtor($debtorDetail);
-            $debtor = Debtor::findOrfail($debtorId);
-            $debtor->money -= $old_money * 1;
-            Log::info('old_many: '. $old_money);
-            Log::info('$debtor->money: '. $debtor->money);
-
+            $this->oldMoneyRemoveDebtor($debtorDetail);
             // mew add
-            $money = $data['money'];
-            $currency_convert = $data['currency_convert'];
-            $currencyId = (int) $data['currency_id'];
-            $this->newMoneyAddDebtor($debtor, $currency_convert, $currencyId, $money);
-
+            $this->newMoneyAddDebtor($debtorId, $currency_convert, $currencyId, $money, $status);
 
             $debtorDetail->update([
                 'debtor_id' => $debtorId,
                 'money' => $money,
-                'status' => $data['status'],
+                'status' => $status,
                 'date' => $data['date'],
                 'currency_convert' => $currency_convert,
                 'currency_id' => $currencyId,
@@ -91,10 +87,7 @@ class DebtorDetailService
             $debtorDetail = DebtorDetail::findOrfail($id);
 
             // old remove
-            $old_money = $this->getOldMoneyDebtor($debtorDetail);
-            $debtor = Debtor::findOrfail($debtorDetail->debtor_id);
-            $debtor->money -= $old_money;
-            $debtor->update(['money' => $debtor->money]);
+            $this->oldMoneyRemoveDebtor($debtorDetail);
 
             $debtorDetail->update(['deleted_at' => now()]);
         DB::commit();
@@ -102,16 +95,27 @@ class DebtorDetailService
     }
 
 
-    public function newMoneyAddDebtor(object $debtor, string $currency_convert, int $currency_id, string $money): void
+    public function newMoneyAddDebtor(
+        int $debtorId,
+        string $currency_convert,
+        int $currency_id,
+        string $money,
+        string $status
+    ): void
     {
         if ($currency_convert == 1) {
             $currency = $this->currency->one($currency_id)->currency;
             $money *= $currency;
         }
-        $debtor->update(['money' => $debtor->money + $money]);
+
+        $debtor = Debtor::findOrFail($debtorId);
+
+        $money = ($status == 1) ? $debtor->money + $money : $debtor->money - $money;
+
+        $debtor->update(['money' => $money]);
     }
 
-    public function getOldMoneyDebtor(object $debtorDetail): string
+    public function oldMoneyRemoveDebtor(object $debtorDetail): void
     {
         $old_currency_convert = $debtorDetail->currency_convert;
         if ($old_currency_convert == 1) {
@@ -122,7 +126,12 @@ class DebtorDetailService
         else {
             $old_money = $debtorDetail->money;
         }
-        return $old_money;
+
+        $debtor = Debtor::findOrfail($debtorDetail->debtor_id);
+
+        $money = ($debtorDetail->status == 1) ? $debtor->money - $old_money : $debtor->money + $old_money;
+
+        $debtor->update(['money' => $money]);
     }
 }
 
