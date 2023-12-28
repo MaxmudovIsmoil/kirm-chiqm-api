@@ -117,8 +117,7 @@ class DebtorDetailService
 
     public function oldMoneyRemoveDebtor(object $debtorDetail): void
     {
-        $old_currency_convert = $debtorDetail->currency_convert;
-        if ($old_currency_convert == 1) {
+        if ($debtorDetail->currency_convert == 1) {
             $old_currency_id = (int) $debtorDetail->currency_id;
             $old_currency = $this->currency->one($old_currency_id)->currency;
             $old_money = $debtorDetail->money * $old_currency;
@@ -129,7 +128,7 @@ class DebtorDetailService
 
         $debtor = Debtor::findOrfail($debtorDetail->debtor_id);
 
-        $money = ($debtorDetail->status == 1) ? $debtor->money - $old_money : $debtor->money + $old_money;
+        $money = ($debtorDetail->status == 1) ? ($debtor->money - $old_money) : ($debtor->money + $old_money);
 
         $debtor->update(['money' => $money]);
     }
