@@ -37,7 +37,7 @@ class DebtorController extends Controller
             return response()->success($result);
         }
         catch (\Exception $e) {
-            return reponse()->json($e->getMessage());
+            return response()->json($e->getMessage());
         }
     }
 
@@ -53,7 +53,7 @@ class DebtorController extends Controller
             return response()->success($result);
         }
         catch (\Exception $e) {
-            return reponse()->json($e->getMessage());
+            return response()->json($e->getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ class DebtorController extends Controller
             return response()->success($result);
         }
         catch (\Exception $e) {
-            return reponse()->json($e->getMessage());
+            return response()->json($e->getMessage());
         }
     }
 

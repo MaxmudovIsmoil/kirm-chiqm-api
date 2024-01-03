@@ -18,6 +18,7 @@ class StatisticService
         return DB::table('debtor_details')
             ->select('status', DB::raw('SUM(money) as total_amount'))
             ->whereMonth('date', $month)
+            ->whereNull('deleted_at')
             ->groupBy('status')
             ->get();
     }
@@ -30,6 +31,7 @@ class StatisticService
         return DB::table('debtor_details')
             ->select('status', DB::raw('SUM(money) as total_amount'))
             ->where(['debtor_id' => $debtorId])
+            ->whereNull('deleted_at')
             ->whereMonth('date', $month)
             ->groupBy('status')
             ->get();
