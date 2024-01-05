@@ -16,10 +16,12 @@ class StatisticService
             $month = Carbon::now()->subMonth()->month;
 
         return DB::table('debtor_details')
-            ->select('status', DB::raw('SUM(money) as total_amount'))
-            ->whereMonth('date', $month)
-            ->whereNull('deleted_at')
-            ->groupBy('status')
+            ->join('debtors', 'debtor_details.debtor_id', '=', 'debtors.id')
+            ->select('debtor_details.status', DB::raw('SUM(debtor_details.money) as total_amount'))
+            ->where('debtors.user_id', Auth::id())
+            ->whereNull('debtor_details.deleted_at')
+            ->whereMonth('debtor_details.date', $month)
+            ->groupBy('debtor_details.status')
             ->get();
     }
 
@@ -29,11 +31,13 @@ class StatisticService
             $month = Carbon::now()->subMonth()->month;
 
         return DB::table('debtor_details')
-            ->select('status', DB::raw('SUM(money) as total_amount'))
-            ->where(['debtor_id' => $debtorId])
-            ->whereNull('deleted_at')
-            ->whereMonth('date', $month)
-            ->groupBy('status')
+            ->join('debtors', 'debtor_details.debtor_id', '=', 'debtors.id')
+            ->select('debtor_details.status', DB::raw('SUM(debtor_details.money) as total_amount'))
+            ->where('debtors.user_id', Auth::id())
+            ->where(['debtors.id' => $debtorId])
+            ->whereNull('debtor_details.deleted_at')
+            ->whereMonth('debtor_details.date', $month)
+            ->groupBy('debtor_details.status')
             ->get();
     }
 
